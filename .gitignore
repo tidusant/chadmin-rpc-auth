@@ -1,0 +1,6 @@
+
+debug
+logs/
+portal.exe
+*.exe
+*.exe~
