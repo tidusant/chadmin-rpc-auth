@@ -76,7 +76,7 @@ func main() {
 	var port int
 	var debug bool
 	flag.IntVar(&port, "port", 9877, "help message for flagname")
-	flag.BoolVar(&debug, "debug", false, "Indicates if debug messages should be printed in log files")
+	flag.BoolVar(&debug, "debug", false, "Indicates  if debug messages should be printed in log files")
 	flag.Parse()
 
 	logLevel := log.DebugLevel
