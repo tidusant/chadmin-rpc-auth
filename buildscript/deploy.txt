@@ -12,5 +12,3 @@ http://54.179.157.220:8080/
 isolated_nw
 #docker_ip
 172.20.0.3:9877
-#hostport
-8088
