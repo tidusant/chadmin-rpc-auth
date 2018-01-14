@@ -5,7 +5,7 @@ gopkg.in/mgo.v2/bson
 github.com/tidusant/c3m-common/...
 github.com/tidusant/chadmin-repo/...
 #dockername
-tidusant/chadmin-portal
+tidusant/chadmin-rpc-auth
 #deploys_server
 http://54.179.157.220:8080/
 #docker_network
