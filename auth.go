@@ -87,6 +87,7 @@ func main() {
 	log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
 	defer log.CloseOutputFile()
 	log.RedirectStdOut()
+
 	//init db
 	//
 
