@@ -82,7 +82,6 @@ func main() {
 	logLevel := log.DebugLevel
 	if !debug {
 		logLevel = log.InfoLevel
-
 	}
 
 	log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
