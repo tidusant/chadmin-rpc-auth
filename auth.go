@@ -2,11 +2,12 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"net"
 	"net/rpc"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/tidusant/c3m-common/c3mcommon"
 	"github.com/tidusant/c3m-common/log"
@@ -79,14 +80,15 @@ func main() {
 	flag.BoolVar(&debug, "debug", false, "Indicates  if debug messages should be printed in log files")
 	flag.Parse()
 
-	logLevel := log.DebugLevel
+	//logLevel := log.DebugLevel
 	if !debug {
-		logLevel = log.InfoLevel
+		//logLevel = log.InfoLevel
+		gin.SetMode(gin.ReleaseMode)
 	}
 
-	log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
-	defer log.CloseOutputFile()
-	log.RedirectStdOut()
+	// log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
+	// defer log.CloseOutputFile()
+	// log.RedirectStdOut()
 
 	//init db
 
