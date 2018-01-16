@@ -89,6 +89,7 @@ func main() {
 	log.RedirectStdOut()
 
 	//init db
+
 	//
 
 	arith := new(Arith)
