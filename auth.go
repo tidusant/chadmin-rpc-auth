@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net"
 	"net/rpc"
 	"strconv"
@@ -43,8 +44,6 @@ func (t *Arith) Run(data string, result *string) error {
 		*result = test(usex, userIP)
 	} else if usex.Action == "aut" {
 		*result = rpch.GetLogin(usex.Session, userIP)
-	} else if usex.Action == "submitorder" {
-		//*result = submitorder(siteid, mongoSession, data2)
 	} else { //default
 		*result = ""
 	}
@@ -80,15 +79,15 @@ func main() {
 	flag.BoolVar(&debug, "debug", false, "Indicates  if debug messages should be printed in log files")
 	flag.Parse()
 
-	//logLevel := log.DebugLevel
+	logLevel := log.DebugLevel
 	if !debug {
-		//logLevel = log.InfoLevel
+		logLevel = log.InfoLevel
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	// log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
-	// defer log.CloseOutputFile()
-	// log.RedirectStdOut()
+	log.SetOutputFile(fmt.Sprintf("adminAuth-"+strconv.Itoa(port)), logLevel)
+	defer log.CloseOutputFile()
+	log.RedirectStdOut()
 
 	//init db
 
