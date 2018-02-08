@@ -43,6 +43,7 @@ func (t *Arith) Run(data string, result *string) error {
 	} else if usex.Action == "test" {
 		*result = test(usex, userIP)
 	} else if usex.Action == "aut" {
+		log.Debugf("call from %s - %s", userIP, usex.Session)
 		*result = rpch.GetLogin(usex.Session, userIP)
 	} else { //default
 		*result = ""
@@ -76,7 +77,7 @@ func main() {
 	var port int
 	var debug bool
 	flag.IntVar(&port, "port", 9877, "help message for flagname")
-	flag.BoolVar(&debug, "debug", false, "Indicates  if debug messages should be printed in log files")
+	flag.BoolVar(&debug, "debug", true, "Indicates  if debug messages should be printed in log files")
 	flag.Parse()
 
 	logLevel := log.DebugLevel
