@@ -22,9 +22,9 @@ const (
 
 type Arith int
 
-func (t *Arith) Run(data string, result *string) error {
+func (t *Arith) Run(data string, result *models.RequestResult) error {
 	log.Debugf("Call RPCAuth args:" + data)
-	*result = ""
+	*result = models.RequestResult{}
 	//parse args
 	args := strings.Split(data, "|")
 
@@ -40,26 +40,32 @@ func (t *Arith) Run(data string, result *string) error {
 
 	if usex.Action == "l" {
 		*result = login(usex, userIP)
+	} else if usex.Action == "lo" {
+		*result = logout(usex, userIP)
 	} else if usex.Action == "test" {
 		*result = test(usex, userIP)
 	} else if usex.Action == "aut" {
-		log.Debugf("call from %s - %s", userIP, usex.Session)
-		*result = rpch.GetLogin(usex.Session, userIP)
-	} else { //default
-		*result = ""
+		logininfo := rpch.GetLogin(usex.Session, userIP)
+		if logininfo == "" {
+			*result = c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
+		} else {
+			*result = c3mcommon.ReturnJsonMessage("1", "", "user logged in", `"`+logininfo+`"`)
+		}
 	}
 
 	return nil
 }
 
-func test(usex models.UserSession, userIP string) string {
+func test(usex models.UserSession, userIP string) models.RequestResult {
+
 	if rpch.GetLogin(usex.Session, userIP) != "" {
-		return c3mcommon.ReturnJsonMessage("1", "", "user logged in", "")
+		return c3mcommon.ReturnJsonMessage("1", "", "user logged in", `{"sex":"`+usex.Session+`"}`)
 	}
-	return c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
+
+	return c3mcommon.ReturnJsonMessage("0", "user not logged in", "", `{"sex":"`+usex.Session+`"}`)
 }
 
-func login(usex models.UserSession, userIP string) string {
+func login(usex models.UserSession, userIP string) models.RequestResult {
 	args := strings.Split(usex.Params, ",")
 	if len(args) < 2 {
 		return c3mcommon.ReturnJsonMessage("0", "empty username or pass", "", "")
@@ -71,6 +77,11 @@ func login(usex models.UserSession, userIP string) string {
 		return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
 	}
 	return c3mcommon.ReturnJsonMessage("0", "login fail", "", "")
+
+}
+func logout(usex models.UserSession, userIP string) models.RequestResult {
+	rpch.Logout(usex.UserID, usex.Session)
+	return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
 
 }
 func main() {

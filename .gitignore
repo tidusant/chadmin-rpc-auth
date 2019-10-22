@@ -4,3 +4,7 @@ logs/
 portal.exe
 *.exe
 *.exe~
+.vscode/launch.json
+.vscode/tasks.json
+authmac
+.DS_Store
