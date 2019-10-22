@@ -8,3 +8,5 @@ portal.exe
 .vscode/tasks.json
 authmac
 .DS_Store
+.vscode/launch.json
+.vscode/tasks.json
