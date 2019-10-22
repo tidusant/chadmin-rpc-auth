@@ -112,7 +112,7 @@ func main() {
 	//			rpc.HandleHTTP()
 	//			l, e := net.Listen("tcp", ":"+strconv.Itoa(port))
 	//			if e != nil {
-	//				log.Debug("listen error:",e)
+	//				log.Debug("listen error:", e)
 	//			}
 	//			http.Serve(l, nil)
 
