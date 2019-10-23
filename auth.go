@@ -22,10 +22,10 @@ const (
 
 type Arith int
 
-func (t *Arith) Run(data string, result *models.RequestResult) error {
+func (t *Arith) Run(data string, result *string) error {
 	log.Debugf("Call RPCAuth args:" + data)
-	*result = models.RequestResult{}
-	//parse  args
+	*result = ""
+	//parse args
 	args := strings.Split(data, "|")
 
 	var usex models.UserSession
@@ -40,32 +40,26 @@ func (t *Arith) Run(data string, result *models.RequestResult) error {
 
 	if usex.Action == "l" {
 		*result = login(usex, userIP)
-	} else if usex.Action == "lo" {
-		*result = logout(usex, userIP)
 	} else if usex.Action == "test" {
 		*result = test(usex, userIP)
 	} else if usex.Action == "aut" {
-		logininfo := rpch.GetLogin(usex.Session, userIP)
-		if logininfo == "" {
-			*result = c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
-		} else {
-			*result = c3mcommon.ReturnJsonMessage("1", "", "user logged in", `"`+logininfo+`"`)
-		}
+		log.Debugf("call from %s - %s", userIP, usex.Session)
+		*result = rpch.GetLogin(usex.Session, userIP)
+	} else { //default
+		*result = ""
 	}
 
 	return nil
 }
 
-func test(usex models.UserSession, userIP string) models.RequestResult {
-
+func test(usex models.UserSession, userIP string) string {
 	if rpch.GetLogin(usex.Session, userIP) != "" {
-		return c3mcommon.ReturnJsonMessage("1", "", "user logged in", `{"sex":"`+usex.Session+`"}`)
+		return c3mcommon.ReturnJsonMessage("1", "", "user logged in", "")
 	}
-
-	return c3mcommon.ReturnJsonMessage("0", "user not logged in", "", `{"sex":"`+usex.Session+`"}`)
+	return c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
 }
 
-func login(usex models.UserSession, userIP string) models.RequestResult {
+func login(usex models.UserSession, userIP string) string {
 	args := strings.Split(usex.Params, ",")
 	if len(args) < 2 {
 		return c3mcommon.ReturnJsonMessage("0", "empty username or pass", "", "")
@@ -79,16 +73,11 @@ func login(usex models.UserSession, userIP string) models.RequestResult {
 	return c3mcommon.ReturnJsonMessage("0", "login fail", "", "")
 
 }
-func logout(usex models.UserSession, userIP string) models.RequestResult {
-	rpch.Logout(usex.UserID, usex.Session)
-	return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
-
-}
 func main() {
 	var port int
 	var debug bool
 	flag.IntVar(&port, "port", 9877, "help message for flagname")
-	flag.BoolVar(&debug, "debug", false, "Indicates  if debug messages should be printed in log files")
+	flag.BoolVar(&debug, "debug", true, "Indicates  if debug messages should be printed in log files")
 	flag.Parse()
 
 	logLevel := log.DebugLevel
