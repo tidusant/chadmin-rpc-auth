@@ -25,7 +25,7 @@ type Arith int
 func (t *Arith) Run(data string, result *models.RequestResult) error {
 	log.Debugf("Call RPCAuth args:" + data)
 	*result = models.RequestResult{}
-	//parse args
+	//parse  args
 	args := strings.Split(data, "|")
 
 	var usex models.UserSession
@@ -45,9 +45,12 @@ func (t *Arith) Run(data string, result *models.RequestResult) error {
 	} else if usex.Action == "test" {
 		*result = test(usex, userIP)
 	} else if usex.Action == "aut" {
-		*result = rpch.GetLogin(usex.Session, userIP)
-	} else { //default
-		*result = ""
+		logininfo := rpch.GetLogin(usex.Session, userIP)
+		if logininfo == "" {
+			*result = c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
+		} else {
+			*result = c3mcommon.ReturnJsonMessage("1", "", "user logged in", `"`+logininfo+`"`)
+		}
 	}
 
 	return nil
