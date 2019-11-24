@@ -103,7 +103,7 @@ func main() {
 
 	//init db
 
-	//
+	//test dev
 
 	arith := new(Arith)
 	rpc.Register(arith)
