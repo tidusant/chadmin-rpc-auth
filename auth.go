@@ -72,6 +72,7 @@ func login(usex models.UserSession, userIP string) models.RequestResult {
 	}
 	user := args[0]
 	pass := args[1]
+	log.Debugf("login with username:%s, pass:%s", user, pass)
 	userid := rpch.Login(user, pass, usex.Session, userIP)
 	if userid != "" {
 		return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
