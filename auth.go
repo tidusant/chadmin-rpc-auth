@@ -6,7 +6,7 @@ import (
 	"net/rpc"
 	"strconv"
 	"strings"
-	
+
 	"github.com/tidusant/c3m-common/c3mcommon"
 	"github.com/tidusant/c3m-common/log"
 	rpch "github.com/tidusant/chadmin-repo/cuahang"
@@ -42,7 +42,7 @@ func (t *Arith) Run(data string, result *string) error {
 	} else if usex.Action == "aut" {
 		log.Debugf("call from %s - %s", userIP, usex.Session)
 		*result = rpch.GetLogin(usex.Session, userIP)
-	} else { //default
+	} else { //default re
 		*result = ""
 	}
 
@@ -51,7 +51,7 @@ func (t *Arith) Run(data string, result *string) error {
 
 func test(usex models.UserSession, userIP string) string {
 	if rpch.GetLogin(usex.Session, userIP) != "" {
-		
+
 		return c3mcommon.ReturnJsonMessage("1", "", "user logged in", "")
 	}
 	return c3mcommon.ReturnJsonMessage("0", "user not logged in", "", "")
