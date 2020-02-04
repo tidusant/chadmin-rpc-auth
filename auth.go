@@ -22,7 +22,7 @@ type Arith int
 func (t *Arith) Run(data string, result *string) error {
 	log.Debugf("Call RPCAuth args:" + data)
 	*result = ""
-	//parse args
+	//parse args r
 	args := strings.Split(data, "|")
 
 	var usex models.UserSession
