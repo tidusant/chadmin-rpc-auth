@@ -24,7 +24,7 @@ const (
 type Arith int
 
 func (t *Arith) Run(data string, result *models.RequestResult) error {
-	log.Debugf("Call RPCAuth args:" + data)
+	//log.Debugf("Call RPCAuth args:" + data)
 	*result = models.RequestResult{}
 	//parse  args
 	args := strings.Split(data, "|")
