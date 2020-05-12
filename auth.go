@@ -1,14 +1,15 @@
 package main
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"flag"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"net"
 	"net/rpc"
 	"strconv"
 	"strings"
-
-	"github.com/gin-gonic/gin"
 
 	"github.com/tidusant/c3m-common/c3mcommon"
 	"github.com/tidusant/c3m-common/log"
@@ -72,6 +73,10 @@ func login(usex models.UserSession, userIP string) models.RequestResult {
 	}
 	user := args[0]
 	pass := args[1]
+
+	hash := md5.Sum([]byte(pass))
+	passmd5 := hex.EncodeToString(hash[:])
+	log.Debugf("user %s,%s,%s result %v", user, pass, passmd5)
 	userid := rpch.Login(user, pass, usex.Session, userIP)
 	if userid != "" {
 		return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
