@@ -76,7 +76,7 @@ func login(usex models.UserSession, userIP string) models.RequestResult {
 
 	hash := md5.Sum([]byte(pass))
 	passmd5 := hex.EncodeToString(hash[:])
-	log.Debugf("user %s,%s,%s result %v", user, pass, passmd5)
+	log.Debugf("user %s,%s,%s", user, pass, passmd5)
 	userid := rpch.Login(user, pass, usex.Session, userIP)
 	if userid != "" {
 		return c3mcommon.ReturnJsonMessage("1", "", "login success", "")
